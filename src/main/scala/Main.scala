@@ -18,5 +18,5 @@ private case class Arguments(fileLocation: String, maxValue: Int)
 object Main extends App {
   Argument.validateArguments(args)
   val arguments = Argument.buildArgument(args)
-  new DataProcessor(arguments.fileLocation, arguments.maxValue)
+  new DataProcessor(arguments.fileLocation, arguments.maxValue).calcuteAndSaveResult()
 }

@@ -1,23 +1,22 @@
 import scala.annotation.tailrec
-import scala.collection.mutable
+import scala.util.Properties
 
 object TextWrapper {
-  @tailrec
-  def wrapText(text: String, maxSize: Int, list: mutable.MutableList[String] = mutable.MutableList.empty[String]): mutable.MutableList[String] = {
-    val pattern = ("^.{" + maxSize + ",}$").r
-    val textToProcess = text take maxSize
+  def wrapText(text: Stream[String], maxSize: Int): Stream[String] = {
 
-    textToProcess match {
-      case pattern(line)
-        if line contains "\n" => wrapText(text.substring(line.indexOf("\n")), maxSize, list += textToProcess.substring(0, textToProcess lastIndexOf "\n"))
-      case pattern() if (!textToProcess.endsWith(" ") && textToProcess.contains(" ")) =>
-        wrapText(text.substring(textToProcess.lastIndexOf(" ") + 1), maxSize, list += textToProcess.substring(0, textToProcess lastIndexOf " ").trim)
-      case pattern() => wrapText(text.substring(maxSize), maxSize, list += textToProcess.trim)
-      case _ => if (textToProcess.contains("\n")) {
-        wrapText(text.substring(textToProcess.lastIndexOf("\n") + 1), maxSize, list += textToProcess.substring(0, textToProcess lastIndexOf "\n").trim)
-      } else {
-        list += textToProcess
+    @tailrec
+    def processLine(line: String, proccessedLines: Stream[String] = Stream.empty): Seq[String] = {
+      val pattern = ("^.{" + maxSize + ",}$").r
+      val textToProcess = line take maxSize
+      textToProcess match {
+        case pattern() if (!textToProcess.endsWith(" ") && textToProcess.contains(" ")) =>
+          processLine(line.substring(textToProcess.lastIndexOf(" ") + 1), proccessedLines #::: Stream(textToProcess.substring(0, textToProcess lastIndexOf " ").trim))
+        case pattern() => processLine(line.substring(maxSize), proccessedLines #::: Stream(textToProcess))
+        case _ => proccessedLines #::: Stream(textToProcess)
       }
     }
+
+    text.flatMap(processLine(_).map(_ + Properties.lineSeparator)).filter(_.trim.nonEmpty)
   }
+
 }

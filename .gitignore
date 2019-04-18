@@ -6,3 +6,4 @@
 
 target/
 project/
+src/test/resources/bigTextFile.txt
