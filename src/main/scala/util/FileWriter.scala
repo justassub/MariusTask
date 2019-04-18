@@ -1,5 +1,7 @@
 package util
 
+import scala.util.Properties
+
 object FileWriter {
   private val output = "target/test/output/file.txt"
 
@@ -7,7 +9,7 @@ object FileWriter {
     import java.io._
 
     val writer = new BufferedWriter(new FileWriter(output))
-    outputResult.foreach(writer.write)
+    outputResult.foreach(line => writer.write(line + Properties.lineSeparator))
     writer.close()
   }
 
