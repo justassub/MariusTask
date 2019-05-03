@@ -1,8 +1,7 @@
 import scala.annotation.tailrec
-import scala.util.Properties
 
 object TextWrapper {
-  def wrapText(text: Iterator[String], maxSize: Int): Iterator[String] = {
+  def wrapText(text: Stream[String], maxSize: Int): Stream[String] = {
 
     @tailrec
     def processLine(line: String, proccessedLines: Stream[String] = Stream.empty): Stream[String] = {

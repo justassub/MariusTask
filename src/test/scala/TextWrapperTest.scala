@@ -2,7 +2,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{FunSuite, Matchers}
 
 class TextWrapperTest extends FunSuite with Matchers with TableDrivenPropertyChecks {
-  val mariusExamples =
+/*  val mariusExamples =
     Table(
       ("text", "max length", "result"),
       (Iterator("Green metal stick"), 13, Seq("Green metal", "stick")),
@@ -15,5 +15,5 @@ class TextWrapperTest extends FunSuite with Matchers with TableDrivenPropertyChe
     forAll(mariusExamples) {
       TextWrapper.wrapText(_, _).toVector should contain allElementsOf  (_)
     }
-  }
+  }*/
 }

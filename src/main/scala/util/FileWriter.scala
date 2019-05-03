@@ -5,7 +5,7 @@ import scala.util.Properties
 object FileWriter {
   private val output = "target/test/output/file.txt"
 
-  def writeOutput(outputResult: Iterator[String]) = {
+  def writeOutput(outputResult: Stream[String]) = {
     import java.io._
 
     val writer = new BufferedWriter(new FileWriter(output))
